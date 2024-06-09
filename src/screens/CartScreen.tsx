@@ -1,5 +1,5 @@
 import {FlatList} from 'react-native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import {selectCartItems, selectTotalAmount} from '../state/cart/selectors';
 import AppLayout from '../components/AppLayout';
@@ -10,10 +10,15 @@ import MainText from '../components/MainText';
 import locales from '../assets/locales';
 import HorizontalProduct from '../components/Products/HorizontalProduct';
 import MainButton from '../components/MainButton';
+import {Product} from '../typescript/products';
 
 const CartScreen = () => {
   const cartItems = useSelector(selectCartItems);
   const total = useSelector(selectTotalAmount);
+
+  const renderItem = useCallback(({item}: {item: Product}) => {
+    return <HorizontalProduct product={item} />;
+  }, []);
 
   return (
     <AppLayout>
@@ -23,9 +28,9 @@ const CartScreen = () => {
         ) : (
           <Wrapper>
             <FlatList
+              showsVerticalScrollIndicator={false}
               data={cartItems}
-              keyExtractor={item => item.id}
-              renderItem={({item}) => <HorizontalProduct product={item} />}
+              renderItem={renderItem}
             />
             <MainButton title={`Checkout $${total.toFixed(2)}`} />
           </Wrapper>

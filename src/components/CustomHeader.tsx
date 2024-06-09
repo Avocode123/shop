@@ -14,7 +14,7 @@ const CustomHeader = ({headerTitle}: Props) => {
         <Image source={icons.header.arrow_back} />
       </Button>
       <Text>{headerTitle}</Text>
-      <Wrapper></Wrapper>
+      <Wrapper />
     </Container>
   );
 };

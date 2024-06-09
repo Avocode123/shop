@@ -1,5 +1,5 @@
 import {FlatList} from 'react-native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import {selectProducts} from '../../state/products/selectors';
 import ProductListItem from './ProductListItem';
@@ -21,9 +21,13 @@ const ProductsList = ({fromIndex, toIndex, vertical, filter}: Props) => {
     filter?.toLocaleLowerCase() === product.category ? product : null,
   );
 
-  const renderItem = ({item}: {item: Product}) => (
-    <ProductListItem product={item} vertical={vertical} />
+  const renderItem = useCallback(
+    ({item}: {item: Product}) => {
+      return <ProductListItem product={item} vertical={vertical} />;
+    },
+    [vertical],
   );
+
   return (
     <FlatList
       data={filter ? filteredProducts : products}
